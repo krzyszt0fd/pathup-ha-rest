@@ -2,10 +2,9 @@
 using System.Linq;
 using System.Threading.Tasks;
 using Amazon.DynamoDBv2.DataModel;
-using Amazon.DynamoDBv2.DocumentModel;
-using NotesApp.Skeleton.Model;
+using NotesApp.Complete.Model;
 
-namespace NotesApp.Skeleton.Repository
+namespace NotesApp.Complete.Repository
 {
     public class NoteRepository : INoteRepository
     {

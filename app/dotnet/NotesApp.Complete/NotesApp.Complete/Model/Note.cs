@@ -1,6 +1,6 @@
 ﻿using Amazon.DynamoDBv2.DataModel;
 
-namespace NotesApp.Skeleton.Model
+namespace NotesApp.Complete.Model
 {
     [DynamoDBTable("notes")]
     public class Note

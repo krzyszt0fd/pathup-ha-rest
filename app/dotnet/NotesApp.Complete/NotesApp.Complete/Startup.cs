@@ -7,9 +7,9 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using NotesApp.Skeleton.Repository;
+using NotesApp.Complete.Repository;
 
-namespace NotesApp.Skeleton
+namespace NotesApp.Complete
 {
     public class Startup
     {

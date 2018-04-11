@@ -1,13 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Filters;
-using NotesApp.Skeleton.Model;
-using NotesApp.Skeleton.Repository;
+using NotesApp.Complete.Model;
+using NotesApp.Complete.Repository;
 
-namespace NotesApp.Skeleton.Controllers
+namespace NotesApp.Complete.Controllers
 {
     [Route("api/[controller]")]    
     [Produces("application/json")]
