@@ -1,8 +1,9 @@
-﻿using System.Collections.Generic;
+﻿using System.Collections;
+using System.Collections.Generic;
 using System.Threading.Tasks;
-using NotesApp.Complete.Model;
+using NotesApp.Skeleton.Model;
 
-namespace NotesApp.Complete.Repository
+namespace NotesApp.Skeleton.Repository
 {
     public interface INoteRepository
     {

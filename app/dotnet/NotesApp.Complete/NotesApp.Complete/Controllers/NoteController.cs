@@ -1,10 +1,13 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
-using NotesApp.Complete.Model;
-using NotesApp.Complete.Repository;
+using Microsoft.AspNetCore.Mvc.Filters;
+using NotesApp.Skeleton.Model;
+using NotesApp.Skeleton.Repository;
 
-namespace NotesApp.Complete.Controllers
+namespace NotesApp.Skeleton.Controllers
 {
     [Route("api/[controller]")]    
     [Produces("application/json")]
@@ -18,15 +21,15 @@ namespace NotesApp.Complete.Controllers
         }
 
         [HttpGet]
-        public async Task<IEnumerable<Note>> Get()
+        public Task<IEnumerable<Note>> Get()
         {
-            return await _noteRepository.GetNotes();
+            return _noteRepository.GetNotes();
         }
        
         [HttpPost]
-        public async Task Post([FromBody] Note model)
+        public Task Post(Note model)
         {
-            await _noteRepository.Save(model);
+            return _noteRepository.Save(model);
         }
     }
 }

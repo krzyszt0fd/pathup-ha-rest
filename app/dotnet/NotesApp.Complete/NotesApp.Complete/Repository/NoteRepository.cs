@@ -1,43 +1,36 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Amazon.DynamoDBv2;
-using Amazon.DynamoDBv2.Model;
-using NotesApp.Complete.Model;
+using Amazon.DynamoDBv2.DataModel;
+using Amazon.DynamoDBv2.DocumentModel;
+using NotesApp.Skeleton.Model;
 
-namespace NotesApp.Complete.Repository
+namespace NotesApp.Skeleton.Repository
 {
     public class NoteRepository : INoteRepository
     {
-        private readonly IAmazonDynamoDB _amazonDynamoDb;
+        private readonly IDynamoDBContext context;
 
-        public NoteRepository(IAmazonDynamoDB amazonDynamoDb)
+        public NoteRepository(IDynamoDBContext context)
         {
-            _amazonDynamoDb = amazonDynamoDb;
+            this.context = context;
         }
 
         public async Task<IEnumerable<Note>> GetNotes()
         {
-            var scanResponse = await _amazonDynamoDb.ScanAsync("Notes", new List<string>() { "Id", "Username", "Content" });
-            return scanResponse.Items.Select(item =>
-                new Note()
-                {
-                    Id = item["Id"].S,
-                    Content = item["Content"].S,
-                    Username = item["Username"].S
-                });
-        }
-
-        public async Task Save(Note note)
-        {
-            var attributes = new Dictionary<string, AttributeValue>()
+            var notes = new List<Note>();
+            var search = context.ScanAsync<Note>(Enumerable.Empty<ScanCondition>());
+            while(!search.IsDone)
             {
-                {"Id", new AttributeValue(note.Id)},
-                {"Username", new AttributeValue(note.Username)},
-                {"Content", new AttributeValue(note.Content)},
-            };
-            await _amazonDynamoDb.PutItemAsync("Notes", attributes);
+                notes.AddRange(await search.GetNextSetAsync());
+            }
+            return notes;
         }
 
+        public Task Save(Note note)
+        {
+            return context.SaveAsync(note);
+        }
+        
     }
 }

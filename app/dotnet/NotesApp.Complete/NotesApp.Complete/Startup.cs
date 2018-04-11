@@ -2,13 +2,14 @@
 using System.Linq;
 using Amazon;
 using Amazon.DynamoDBv2;
+using Amazon.DynamoDBv2.DataModel;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using NotesApp.Complete.Repository;
+using NotesApp.Skeleton.Repository;
 
-namespace NotesApp.Complete
+namespace NotesApp.Skeleton
 {
     public class Startup
     {
@@ -22,19 +23,19 @@ namespace NotesApp.Complete
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddDefaultAWSOptions(Configuration.GetAWSOptions());
+            services.AddAWSService<IAmazonDynamoDB>();
             services.AddTransient<INoteRepository, NoteRepository>();
-            services.AddTransient<IAmazonDynamoDB, AmazonDynamoDBClient>(sp =>
-                {
-                    AmazonDynamoDBConfig clientConfig = new AmazonDynamoDBConfig();                    
-                    clientConfig.RegionEndpoint = RegionEndpoint.USEast1;
-                    return new AmazonDynamoDBClient(clientConfig);
-                });
+            services.AddTransient<IDynamoDBContext, DynamoDBContext>();
             services.AddMvc();
+            //https://github.com/aws/aws-sdk-net/issues/624
+            AWSConfigsDynamoDB.Context.TableNamePrefix = Configuration["dynamoDBContextTableNamePrefix"];
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
+            
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();

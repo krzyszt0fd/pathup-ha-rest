@@ -1,11 +1,17 @@
-﻿namespace NotesApp.Complete.Model
+﻿using Amazon.DynamoDBv2.DataModel;
+
+namespace NotesApp.Skeleton.Model
 {
+    [DynamoDBTable("notes")]
     public class Note
     {
-        public string Id { get; set; }
+        [DynamoDBHashKey("id")]
+        public int Id { get; set; }
 
+        [DynamoDBPropertyAttribute("username")]
         public string Username { get; set; }
 
+        [DynamoDBPropertyAttribute("content")]
         public string Content { get; set; }
     }
 }
